@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        .error-message {
+            color: red;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+            background-color: #ffebee;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .form-group input.error {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset error states
+            document.getElementById('email').classList.remove('error');
+            document.getElementById('password').classList.remove('error');
+            document.getElementById('errorMessage').style.display = 'none';
+            
+            const formData = new FormData(this);
+            
+            // Gửi yêu cầu đến server
+            fetch('check_login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Received login request");
+                if (data.isAdmin) {
+                    // Nếu đăng nhập thành công và là admin, chuyển hướng đến trang admin
+                    window.location.href = 'admin.php';
+                } else if (data.isUser) {
+                    // Nếu đăng nhập thành công nhưng không phải admin, chuyển hướng đến trang chủ
+                    window.location.href = 'web.php';
+                } else {
+                    // Nếu đăng nhập không thành công, hiển thị thông báo lỗi
+                    const errorMessage = document.getElementById('errorMessage');
+                    errorMessage.textContent = data.message || "Invalid email or password";
+                    errorMessage.style.display = 'block';
+                    document.getElementById('password').classList.add('error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.textContent = 'An error occurred during login. Please try again.';
+                errorMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html> 

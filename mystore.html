@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Stores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .store-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: #4CAF50;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .store-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .store-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .store-card h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        .store-info p {
+            color: #555;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="store-container">
+        <a href="web.php" class="back-btn">← Back to Home</a>
+        <h1>My Stores</h1>
+
+        <div class="store-list">
+            <!-- Store 1 -->
+            <div class="store-card" onclick="viewStore('store1')">
+                <h3>Store Name 1</h3>
+                <div class="store-info">
+                    <p>Products: 15</p>
+                    <p>Orders: 25</p>
+                    <p>Rating: 4.5⭐</p>
+                </div>
+            </div>
+
+            <!-- Store 2 -->
+            <div class="store-card" onclick="viewStore('store2')">
+                <h3>Store Name 2</h3>
+                <div class="store-info">
+                    <p>Products: 10</p>
+                    <p>Orders: 30</p>
+                    <p>Rating: 4.7⭐</p>
+                </div>
+            </div>
+
+            <!-- Add more store cards as needed -->
+        </div>
+    </div>
+
+    <script>
+        function viewStore(storeId) {
+            window.location.href = `store.html?storeId=${storeId}`;
+        }
+    </script>
+</body>
+</html> 
